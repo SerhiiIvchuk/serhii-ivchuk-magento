@@ -1,5 +1,5 @@
 # SSL certificates for development
-# $ mkcert -cert-file=serhii-ivchuk-magento.local+1.pem -key-file=serhii-ivchuk-magento.local+1-key.pem serhii-ivchuk-magento.local www.serhii-ivchuk-magento.local
+# $ mkcert -cert-file=serhii-ivchuk-magento.local+3.pem -key-file=serhii-ivchuk-magento.local+3-key.pem serhii-ivchuk-magento.local www.serhii-ivchuk-magento.local serhii-ivchuk-magento.us www.serhii-ivchuk-magento.us
 #
 # Start composition:
 # $ docker-compose up -d
@@ -27,13 +27,13 @@ services:
     labels:
       - traefik.enable=true
       # HTTP
-      - traefik.http.routers.serhii-ivchuk-magento-local-http.rule=Host(`serhii-ivchuk-magento.local`,`www.serhii-ivchuk-magento.local`)
+      - traefik.http.routers.serhii-ivchuk-magento-local-http.rule=Host(`serhii-ivchuk-magento.local`,`www.serhii-ivchuk-magento.local`,`serhii-ivchuk-magento.us`,`www.serhii-ivchuk-magento.us`)
       - traefik.http.routers.serhii-ivchuk-magento-local-http.entrypoints=http
       - traefik.http.routers.serhii-ivchuk-magento-local-http.service=serhii-ivchuk-magento-local-http
       - traefik.http.services.serhii-ivchuk-magento-local-http.loadbalancer.server.port=80
       - traefik.http.services.serhii-ivchuk-magento-local-http.loadbalancer.server.scheme=http
       # HTTPS
-      - traefik.http.routers.serhii-ivchuk-magento-local-https.rule=Host(`serhii-ivchuk-magento.local`,`www.serhii-ivchuk-magento.local`)
+      - traefik.http.routers.serhii-ivchuk-magento-local-https.rule=Host(`serhii-ivchuk-magento.local`,`www.serhii-ivchuk-magento.local`,`serhii-ivchuk-magento.us`,`www.serhii-ivchuk-magento.us`)
       - traefik.http.routers.serhii-ivchuk-magento-local-https.entrypoints=https
       - traefik.http.routers.serhii-ivchuk-magento-local-https.tls=true
       - traefik.http.routers.serhii-ivchuk-magento-local-https.service=serhii-ivchuk-magento-local-https
@@ -41,7 +41,7 @@ services:
       - traefik.http.services.serhii-ivchuk-magento-local-https.loadbalancer.server.scheme=https
     # Must add extra_hosts to be written to /etc/hosts - otherwise containerized application can not curl itself
     extra_hosts:
-      - "serhii-ivchuk-magento.local www.serhii-ivchuk-magento.local:127.0.0.1"
+      - "serhii-ivchuk-magento.local www.serhii-ivchuk-magento.local serhii-ivchuk-magento.us www.serhii-ivchuk-magento.us:127.0.0.1"
       # Required for xDebug on Linux hosts till docker.host.internal is not available by default - https://github.com/docker/libnetwork/pull/2348/files
       - "host.docker.internal:172.17.0.1"
     links:
@@ -110,9 +110,9 @@ services:
       - xpack.security.enabled=false
       - indices.query.bool.max_clause_count=10240
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-    ulimits:
+   ulimits:
       memlock:
         soft: -1
         hard: -1
     restart: always
-    network_mode: bridge
+   network_mode: bridge
