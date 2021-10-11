@@ -45,8 +45,8 @@ services:
       # Required for xDebug on Linux hosts till docker.host.internal is not available by default - https://github.com/docker/libnetwork/pull/2348/files
       - "host.docker.internal:172.17.0.1"
     links:
-#      - memcached
-#      - redis
+#     - memcached
+#     - redis
       - elasticsearch
     external_links:
       - mysql80:mysql
@@ -110,9 +110,9 @@ services:
       - xpack.security.enabled=false
       - indices.query.bool.max_clause_count=10240
       - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
-   ulimits:
+    ulimits:
       memlock:
         soft: -1
         hard: -1
     restart: always
-   network_mode: bridge
+    network_mode: bridge
