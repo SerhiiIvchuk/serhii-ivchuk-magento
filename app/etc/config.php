@@ -350,6 +350,7 @@ return [
         'Dotdigitalgroup_EmailGraphQl' => 1,
         'Dotdigitalgroup_Sms' => 1,
         'Ivchuk_ControllersDemo' => 1,
+        'Ivchuk_IvchukControllerDemos' => 1,
         'Klarna_Core' => 1,
         'Klarna_Ordermanagement' => 1,
         'Klarna_Kp' => 1,
